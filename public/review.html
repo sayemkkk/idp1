@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Course Review &middot; Anonymous Student Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="review-wrap">
+    <div class="brand">
+      <div class="logo">AS</div>
+      <div>
+        <div class="name">Anonymous Student Review</div>
+        <div class="sub">Your feedback is completely anonymous</div>
+      </div>
+    </div>
+
+    <div id="loading" class="loading">Loading review form…</div>
+
+    <div id="error-box" class="card hidden">
+      <div class="alert alert-error" id="error-text"></div>
+      <p class="muted">If you believe this is a mistake, please contact your department.</p>
+    </div>
+
+    <div id="review" class="card hidden">
+      <h1 id="review-title">Course Evaluation</h1>
+      <p class="muted" id="review-sub"></p>
+
+      <div class="alert alert-info">
+        🔒 No login required. We do not record your name, account, or any identifying information.
+      </div>
+
+      <form id="review-form">
+        <div id="questions"></div>
+
+        <div class="field" style="margin-top:20px;">
+          <label for="comment">Additional comments <span class="muted">(optional)</span></label>
+          <textarea id="comment" maxlength="4000" placeholder="Share any feedback about the teaching or course…"></textarea>
+        </div>
+
+        <div id="submit-error" class="alert alert-error hidden"></div>
+        <button class="btn btn-block" type="submit" id="submit-btn">Submit anonymous feedback</button>
+      </form>
+    </div>
+
+    <div id="success" class="card hidden" style="text-align:center;">
+      <div style="font-size:46px; line-height:1;">✅</div>
+      <h1>Thank you!</h1>
+      <p class="muted">Your anonymous feedback has been recorded. You may close this page.</p>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+  <script src="/review.js"></script>
+</body>
+</html>

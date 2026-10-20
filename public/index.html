@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign in &middot; Anonymous Student Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="auth-body">
+  <div class="login-shell">
+
+    <!-- Left: branded hero panel -->
+    <aside class="login-hero">
+      <div class="hero-glow hero-glow-1"></div>
+      <div class="hero-glow hero-glow-2"></div>
+
+      <div class="hero-top">
+        <div class="brand brand-light">
+          <div class="logo">AS</div>
+          <div>
+            <div class="name">Anonymous Student Review</div>
+            <div class="sub">Academic feedback platform</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-copy">
+        <h1>Honest feedback.<br />Zero pressure.</h1>
+        <p>Collect candid, fully anonymous course evaluations — no student accounts, no tracking, just better teaching.</p>
+
+        <ul class="hero-points">
+          <li><span class="dot"></span> Anonymous submissions by design</li>
+          <li><span class="dot"></span> Instant average-rating analytics</li>
+          <li><span class="dot"></span> Unique links per teacher &amp; course</li>
+        </ul>
+      </div>
+
+      <div class="hero-foot">
+        <span class="chip">🔒 SHA-256 secured</span>
+        <span class="chip">📊 Live analytics</span>
+      </div>
+    </aside>
+
+    <!-- Right: sign-in form -->
+    <main class="login-panel">
+      <div class="login-form-wrap">
+        <div class="login-heading">
+          <span class="eyebrow">Welcome back</span>
+          <h2>Sign in to your account</h2>
+          <p class="muted">Use your staff credentials to continue.</p>
+        </div>
+
+        <div id="error" class="alert alert-error hidden"></div>
+
+        <form id="login-form" autocomplete="on">
+          <div class="field">
+            <label for="username">Username</label>
+            <div class="input-icon">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <input id="username" name="username" type="text" autocomplete="username" placeholder="e.g. admin" required />
+            </div>
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="input-icon">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required />
+            </div>
+          </div>
+          <button class="btn btn-block btn-lg" type="submit" id="submit-btn">Sign in</button>
+        </form>
+
+        <p class="login-note">
+          Students: use the review link shared by your department — no login needed.
+        </p>
+      </div>
+    </main>
+  </div>
+
+  <script src="/app.js"></script>
+  <script>
+    const form = document.getElementById('login-form');
+    const errorBox = document.getElementById('error');
+    const submitBtn = document.getElementById('submit-btn');
+
+    (async () => {
+      try {
+        const data = await API.get('/api/auth/me');
+        routeUser(data.user);
+      } catch { /* not logged in, stay */ }
+    })();
+
+    function routeUser(user) {
+      if (user.role === 'SUPER_ADMIN') window.location.href = '/admin.html';
+      else window.location.href = '/dashboard.html';
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorBox.classList.add('hidden');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Signing in…';
+      try {
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        const data = await API.post('/api/auth/login', { username, password });
+        routeUser(data.user);
+      } catch (err) {
+        errorBox.textContent = err.message;
+        errorBox.classList.remove('hidden');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Sign in';
+      }
+    });
+  </script>
+</body>
+</html>

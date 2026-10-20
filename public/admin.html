@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Console &middot; Anonymous Student Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand" style="margin:0;">
+        <div class="logo">AS</div>
+        <div>
+          <div class="name">Admin Console</div>
+          <div class="sub">Super Administrator</div>
+        </div>
+      </div>
+      <div class="flex">
+        <span class="who" id="who"></span>
+        <button class="btn btn-ghost btn-sm" onclick="logout()">Sign out</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container page">
+    <div class="grid grid-3" style="margin-bottom:26px;">
+      <div class="stat">
+        <div class="label">Head of Departments</div>
+        <div class="value" id="stat-hods">—</div>
+      </div>
+      <div class="stat">
+        <div class="label">Super Admins</div>
+        <div class="value" id="stat-admins">—</div>
+      </div>
+    </div>
+
+    <div class="section-head">
+      <h1>HOD Accounts</h1>
+      <button class="btn" id="new-account-btn">+ New Account</button>
+    </div>
+
+    <div id="create-box" class="card hidden" style="max-width:640px; margin-bottom:22px;">
+      <h2>Create HOD Account</h2>
+      <div id="create-error" class="alert alert-error hidden"></div>
+      <form id="account-form">
+        <div class="grid grid-2">
+          <div class="field">
+            <label for="fullName">Full Name</label>
+            <input id="fullName" required placeholder="Dr. John Smith" />
+          </div>
+          <div class="field">
+            <label for="department">Department</label>
+            <input id="department" required placeholder="Computer Science" />
+          </div>
+        </div>
+        <div class="grid grid-2">
+          <div class="field">
+            <label for="username">Username</label>
+            <input id="username" required placeholder="j.smith" />
+          </div>
+          <div class="field">
+            <label for="password">Temporary Password</label>
+            <input id="password" type="text" required placeholder="min 6 characters" />
+          </div>
+        </div>
+        <input type="hidden" id="role" value="HOD" />
+        <div class="flex">
+          <button class="btn" type="submit" id="account-submit">Create account</button>
+          <button class="btn btn-ghost" type="button" id="cancel-create">Cancel</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="accounts-loading" class="loading">Loading accounts…</div>
+    <div id="accounts-empty" class="empty hidden">
+      <p>No HOD accounts yet. Create one to get started.</p>
+    </div>
+    <div class="table-wrap hidden" id="accounts-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Department</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th class="actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="accounts-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+  <script src="/admin.js"></script>
+</body>
+</html>

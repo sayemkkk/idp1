@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HOD Dashboard &middot; Anonymous Student Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand" style="margin:0;">
+        <div class="logo">AS</div>
+        <div>
+          <div class="name">Review Console</div>
+          <div class="sub" id="hod-name">—</div>
+        </div>
+      </div>
+      <div class="flex">
+        <span class="who" id="who"></span>
+        <button class="btn btn-ghost btn-sm" onclick="logout()">Sign out</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container page">
+    <div class="tabs">
+      <div class="tab active" data-tab="forms">My Forms</div>
+      <div class="tab" data-tab="create">Create Form</div>
+    </div>
+
+    <!-- ================= FORMS LIST ================= -->
+    <section id="tab-forms">
+      <div class="section-head">
+        <h1>Review Campaigns</h1>
+        <button class="btn" onclick="switchTab('create')">+ New Form</button>
+      </div>
+      <div id="forms-loading" class="loading">Loading forms…</div>
+      <div id="forms-empty" class="empty hidden">
+        <p>You haven't created any review forms yet.</p>
+        <button class="btn" onclick="switchTab('create')">Create your first form</button>
+      </div>
+      <div id="forms-container" class="grid"></div>
+    </section>
+
+    <!-- ================= CREATE FORM ================= -->
+    <section id="tab-create" class="hidden">
+      <h1>Create a Review Form</h1>
+      <p class="muted">Define the teacher and course, then add rating questions. A unique anonymous link is generated automatically.</p>
+      <div id="create-error" class="alert alert-error hidden"></div>
+
+      <div class="card" style="max-width:720px;">
+        <form id="create-form">
+          <div class="grid grid-2">
+            <div class="field">
+              <label for="teacherName">Teacher Name</label>
+              <input id="teacherName" required placeholder="Dr. Jane Doe" />
+            </div>
+            <div class="field">
+              <label for="courseName">Course Name</label>
+              <input id="courseName" required placeholder="CS101 &middot; Intro to Programming" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="title">Form Title <span class="muted">(optional)</span></label>
+            <input id="title" placeholder="Semester 1 Course Evaluation" />
+          </div>
+
+          <div class="field">
+            <label>Rating Questions</label>
+            <p class="hint">Each question is answered on a 1–5 scale. Add as many as you need.</p>
+            <div id="question-list"></div>
+            <button type="button" class="btn btn-ghost btn-sm" id="add-question" style="margin-top:8px;">+ Add question</button>
+          </div>
+
+          <button class="btn" type="submit" id="create-btn">Create form & generate link</button>
+        </form>
+      </div>
+
+      <div id="created-result" class="card hidden" style="max-width:720px; margin-top:20px;">
+        <div class="alert alert-success">Form created successfully. Share this anonymous link with students:</div>
+        <div class="link-box">
+          <code id="created-link"></code>
+          <button class="btn btn-ghost btn-sm" onclick="copyCreatedLink()">Copy</button>
+        </div>
+        <div class="spacer"></div>
+        <button class="btn btn-ghost btn-sm" onclick="switchTab('forms'); loadForms();">Back to my forms</button>
+      </div>
+    </section>
+
+    <!-- ================= ANALYTICS ================= -->
+    <section id="tab-analytics" class="hidden">
+      <div class="section-head">
+        <div>
+          <h1 id="analytics-title">Analytics</h1>
+          <p class="muted" id="analytics-sub"></p>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="switchTab('forms')">← Back</button>
+      </div>
+
+      <div id="analytics-loading" class="loading">Loading analytics…</div>
+      <div id="analytics-body" class="hidden">
+        <div class="grid grid-3" style="margin-bottom:22px;">
+          <div class="stat">
+            <div class="label">Overall Average</div>
+            <div class="value" id="stat-avg">—</div>
+          </div>
+          <div class="stat">
+            <div class="label">Responses</div>
+            <div class="value" id="stat-count">—</div>
+          </div>
+          <div class="stat">
+            <div class="label">Questions</div>
+            <div class="value" id="stat-questions">—</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:22px;">
+          <h2>Average rating per question</h2>
+          <div id="stats-list"></div>
+        </div>
+
+        <div class="card">
+          <h2>Anonymous comments</h2>
+          <div id="comments-list"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="/app.js"></script>
+  <script src="/dashboard.js"></script>
+</body>
+</html>
