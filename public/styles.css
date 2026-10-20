@@ -75,12 +75,18 @@ p { margin: 0 0 .8rem; }
 /* ---------------------------------------------------------------
    Split-screen login
 --------------------------------------------------------------- */
-.auth-body { background: var(--bg); }
+.auth-body {
+  background: var(--bg);
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
 
 .login-shell {
   display: grid;
   grid-template-columns: 1.05fr 1fr;
-  min-height: 100vh;
+  height: 100vh;
+  height: 100dvh;
 }
 
 /* Left hero panel */
@@ -145,8 +151,9 @@ p { margin: 0 0 .8rem; }
 .login-panel {
   display: flex; align-items: center; justify-content: center;
   padding: 40px; background: var(--surface);
+  overflow-y: auto;
 }
-.login-form-wrap { width: 100%; max-width: 372px; animation: rise .5s cubic-bezier(.2, .8, .2, 1) both; }
+.login-form-wrap { width: 100%; max-width: 372px; }
 .login-heading { margin-bottom: 26px; }
 .login-heading .eyebrow {
   font-size: .76rem; font-weight: 750; letter-spacing: .08em; text-transform: uppercase;
@@ -172,7 +179,8 @@ p { margin: 0 0 .8rem; }
 
 /* Responsive: stack on narrow screens, hide hero */
 @media (max-width: 900px) {
-  .login-shell { grid-template-columns: 1fr; }
+  .auth-body { height: auto; min-height: 100vh; overflow-y: auto; }
+  .login-shell { grid-template-columns: 1fr; height: auto; min-height: 100vh; }
   .login-hero { display: none; }
   .login-panel { min-height: 100vh; padding: 28px; }
 }
