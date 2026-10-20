@@ -21,5 +21,5 @@ RUN mkdir -p /data
 # Expose port 8080 (Render maps this automatically)
 EXPOSE 8080
 
-# Run the Java application (Note: Linux classpath uses colon ':' instead of semicolon ';')
-CMD ["java", "-cp", "out:lib/*", "com.studentreview.Main"]
+# Run the Java application with the correct package path
+CMD ["java", "-cp", "out:lib/*", "com.reviewapp.server.Main"]
